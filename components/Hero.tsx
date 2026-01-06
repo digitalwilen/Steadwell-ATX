@@ -1,8 +1,6 @@
-import heroImage from './hero-image.jpg';
 import React from 'react';
 import Button from './Button';
 import TrustBar from './TrustBar';
-// import AbstractArt from './AbstractArt'; // optional layer if you want it back
 import { motion } from 'framer-motion';
 
 interface HeroProps {
@@ -14,7 +12,6 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
     <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          
           {/* Content Column */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -31,12 +28,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
                   viewBox="0 0 100 10"
                   preserveAspectRatio="none"
                 >
-                  <path
-                    d="M0 5 Q 50 10 100 5"
-                    stroke="currentColor"
-                    strokeWidth="8"
-                    fill="none"
-                  />
+                  <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="8" fill="none" />
                 </svg>
               </span>{' '}
               <br className="hidden md:block" />
@@ -61,7 +53,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
             <TrustBar />
           </motion.div>
 
-          {/* Visual Column (with motion + improved overlay) */}
+          {/* Visual Column */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -69,20 +61,11 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
             className="relative h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden"
           >
             <img
-              src={heroImage}
+              src="/hero-image.jpg"
               alt="A fully settled, calm home after a move"
               className="absolute inset-0 w-full h-full object-cover"
             />
-
-            {/* Subtle dark overlay for contrast/polish (better than white on a light UI) */}
             <div className="absolute inset-0 bg-black/10" />
-
-            {/* Optional: bring abstract art back as a subtle top layer */}
-            {/*
-            <div className="absolute inset-0">
-              <AbstractArt />
-            </div>
-            */}
           </motion.div>
         </div>
       </div>
