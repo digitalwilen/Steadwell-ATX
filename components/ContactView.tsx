@@ -1,29 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Ear, ClipboardList, Lightbulb } from 'lucide-react';
+import { Phone, Mail, MapPin, Ear, ClipboardList, Lightbulb, CheckCircle } from 'lucide-react';
 import Button from './Button';
 
 const ContactView: React.FC = () => {
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus('submitting');
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    try {
+      const response = await fetch('https://formspree.io/f/mjgejdqo', {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        form.reset();
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
+  };
+
   return (
     <div className="bg-brand-cream overflow-hidden">
-      
+
       {/* SECTION 1: HERO */}
       <section className="relative pt-40 pb-16 lg:pt-56 lg:pb-24 border-b border-brand-stone">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-2xl"
           >
             <h1 className="text-4xl md:text-6xl font-extrabold text-brand-dark mb-8 tracking-tight leading-[1.1]">
-              Let’s Map the Path Forward.
+              Let's Map the Path Forward.
             </h1>
             <p className="text-xl md:text-2xl text-gray-700 leading-relaxed font-medium">
-              You don’t need to have everything figured out yet. That’s what this conversation is for. Whether you’re planning ahead or navigating an urgent situation, the first step is clarity—not commitment.
+              You don't need to have everything figured out yet. That's what this conversation is for. Whether you're planning ahead or navigating an urgent situation, the first step is clarity—not commitment.
             </p>
           </motion.div>
         </div>
-        
+
         {/* Subtle Background Detail */}
         <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-stone opacity-10 pointer-events-none skew-x-12" />
       </section>
@@ -32,19 +59,19 @@ const ContactView: React.FC = () => {
       <section className="py-20 lg:py-32">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-            
+
             {/* LEFT COLUMN: WHAT TO EXPECT & DIRECT CONTACT */}
             <div className="space-y-20">
-              
+
               {/* SECTION 2: WHAT TO EXPECT */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 className="space-y-12"
               >
                 <h2 className="text-3xl font-bold text-brand-dark tracking-tight">What Happens Next</h2>
-                
+
                 <div className="space-y-10">
                   <div className="flex gap-6">
                     <div className="flex-shrink-0 mt-1">
@@ -77,7 +104,7 @@ const ContactView: React.FC = () => {
                     <div>
                       <h3 className="text-xl font-bold text-brand-dark mb-2">We Clarify</h3>
                       <p className="text-gray-600 leading-relaxed">
-                        You leave with a clear picture of what needs to happen next—even if you don’t move forward with us.
+                        You leave with a clear picture of what needs to happen next—even if you don't move forward with us.
                       </p>
                     </div>
                   </div>
@@ -91,14 +118,14 @@ const ContactView: React.FC = () => {
               </motion.div>
 
               {/* SECTION 4: DIRECT CONTACT */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 className="space-y-10 pt-10 border-t border-brand-stone"
               >
                 <h3 className="text-lg font-bold text-brand-dark uppercase tracking-widest">Prefer to speak directly?</h3>
-                
+
                 <div className="space-y-8">
                   <div className="flex items-center gap-6">
                     <div className="bg-white p-3 rounded-xl shadow-sm border border-brand-stone">
@@ -139,7 +166,7 @@ const ContactView: React.FC = () => {
             </div>
 
             {/* RIGHT COLUMN: REQUEST A PRIVATE CONSULTATION (THE FORM) */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -148,71 +175,102 @@ const ContactView: React.FC = () => {
               <div className="mb-12">
                 <h2 className="text-2xl md:text-3xl font-bold text-brand-dark mb-6 tracking-tight">Request a Private Consultation</h2>
                 <p className="text-gray-600 leading-relaxed">
-                  A short, private conversation helps us understand what you’re facing and determine the cleanest, least stressful path forward.
+                  A short, private conversation helps us understand what you're facing and determine the cleanest, least stressful path forward.
                 </p>
               </div>
 
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                <div>
-                  <label htmlFor="name" className="block text-xs font-bold text-brand-dark uppercase tracking-widest mb-2 ml-1">Name</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    className="w-full bg-brand-cream/30 border border-brand-stone rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all font-medium" 
-                    placeholder="Full Name"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {status === 'success' ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-center py-12 space-y-6"
+                >
+                  <CheckCircle className="w-16 h-16 text-green-500 mx-auto" />
+                  <h3 className="text-2xl font-bold text-brand-dark">Thank You</h3>
+                  <p className="text-gray-600 leading-relaxed max-w-sm mx-auto">
+                    Your consultation request has been received. We'll be in touch within one business day.
+                  </p>
+                  <button
+                    onClick={() => setStatus('idle')}
+                    className="text-sm text-brand-primary font-semibold hover:underline mt-4"
+                  >
+                    Submit another request
+                  </button>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label htmlFor="email" className="block text-xs font-bold text-brand-dark uppercase tracking-widest mb-2 ml-1">Email</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      className="w-full bg-brand-cream/30 border border-brand-stone rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all font-medium" 
-                      placeholder="email@example.com"
+                    <label htmlFor="name" className="block text-xs font-bold text-brand-dark uppercase tracking-widest mb-2 ml-1">Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      className="w-full bg-brand-cream/30 border border-brand-stone rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all font-medium"
+                      placeholder="Full Name"
                     />
                   </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-xs font-bold text-brand-dark uppercase tracking-widest mb-2 ml-1">Phone</label>
-                    <input 
-                      type="tel" 
-                      id="phone" 
-                      className="w-full bg-brand-cream/30 border border-brand-stone rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all font-medium" 
-                      placeholder="(512) 000-0000"
-                    />
-                  </div>
-                </div>
 
-                <div>
-                  <label htmlFor="situation" className="block text-xs font-bold text-brand-dark uppercase tracking-widest mb-2 ml-1">Briefly describe the situation</label>
-                  <textarea 
-                    id="situation" 
-                    rows={5} 
-                    className="w-full bg-brand-cream/30 border border-brand-stone rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all font-medium resize-none" 
-                    placeholder="Tell us a little about the home, the timing, or what’s causing the most stress right now…"
-                  ></textarea>
-                </div>
-
-                <div className="pt-4">
-                  <Button size="lg" className="w-full justify-center py-5 shadow-xl">
-                    Request a Private Consultation
-                  </Button>
-                  
-                  <div className="mt-8 text-center space-y-6">
-                    <p className="text-sm text-gray-400 font-medium">
-                      We respond within one business day. If you need immediate assistance, please call.
-                    </p>
-                    
-                    {/* SECTION 5: TRUST FOOTER */}
-                    <div className="pt-8 border-t border-brand-stone/50">
-                      <p className="text-sm text-gray-400 italic font-medium leading-relaxed">
-                        Every conversation is handled with discretion and care. Even if Steadwell isn’t the right fit, our goal is to leave you with clarity and confidence about what comes next.
-                      </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="email" className="block text-xs font-bold text-brand-dark uppercase tracking-widest mb-2 ml-1">Email</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        className="w-full bg-brand-cream/30 border border-brand-stone rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all font-medium"
+                        placeholder="email@example.com"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className="block text-xs font-bold text-brand-dark uppercase tracking-widest mb-2 ml-1">Phone</label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        className="w-full bg-brand-cream/30 border border-brand-stone rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all font-medium"
+                        placeholder="(512) 000-0000"
+                      />
                     </div>
                   </div>
-                </div>
-              </form>
+
+                  <div>
+                    <label htmlFor="situation" className="block text-xs font-bold text-brand-dark uppercase tracking-widest mb-2 ml-1">Briefly describe the situation</label>
+                    <textarea
+                      id="situation"
+                      name="message"
+                      required
+                      rows={5}
+                      className="w-full bg-brand-cream/30 border border-brand-stone rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all font-medium resize-none"
+                      placeholder="Tell us a little about the home, the timing, or what's causing the most stress right now…"
+                    ></textarea>
+                  </div>
+
+                  <div className="pt-4">
+                    <Button type="submit" size="lg" className="w-full justify-center py-5 shadow-xl" disabled={status === 'submitting'}>
+                      {status === 'submitting' ? 'Sending…' : 'Request a Private Consultation'}
+                    </Button>
+
+                    {status === 'error' && (
+                      <p className="text-red-500 text-sm font-medium text-center mt-4">
+                        Something went wrong. Please try again or call us directly.
+                      </p>
+                    )}
+
+                    <div className="mt-8 text-center space-y-6">
+                      <p className="text-sm text-gray-400 font-medium">
+                        We respond within one business day. If you need immediate assistance, please call.
+                      </p>
+
+                      {/* SECTION 5: TRUST FOOTER */}
+                      <div className="pt-8 border-t border-brand-stone/50">
+                        <p className="text-sm text-gray-400 italic font-medium leading-relaxed">
+                          Every conversation is handled with discretion and care. Even if Steadwell isn't the right fit, our goal is to leave you with clarity and confidence about what comes next.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              )}
             </motion.div>
           </div>
         </div>
