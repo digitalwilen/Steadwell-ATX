@@ -21,6 +21,7 @@ const ContactView: React.FC = () => {
       });
 
       if (response.ok) {
+                (window as any).gtag('event', 'generate_lead');
         setStatus('success');
         form.reset();
       } else {
