@@ -19,7 +19,7 @@ const ThreePillars: React.FC = () => {
       technical: "Managed Move & Setup",
       description: "We manage vendors, oversee move-day, and handle the white-glove setup so the new home is comfortable immediately.",
       icon: Truck,
-      color: "bg-orange-50 text-brand-primary",
+      color: "bg-[#2E5D4B]/10 text-brand-primary",
       delay: 0.1
     },
     {

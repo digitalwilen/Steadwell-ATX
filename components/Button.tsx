@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
   
   const variants = {
     primary: "bg-brand-dark text-white hover:bg-black hover:scale-105 shadow-lg shadow-brand-dark/20 focus:ring-brand-dark",
-    secondary: "bg-brand-primary text-white hover:bg-orange-600 hover:scale-105 shadow-lg shadow-orange-500/20 focus:ring-brand-primary",
+    secondary: "bg-brand-primary text-white hover:bg-[#265040] hover:scale-105 shadow-lg shadow-[#2E5D4B]/20 focus:ring-brand-primary",
     outline: "bg-transparent border-2 border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white focus:ring-brand-dark",
     text: "bg-transparent text-brand-dark hover:text-brand-primary p-0 h-auto underline-offset-4 hover:underline"
   };

@@ -44,7 +44,7 @@ const WhatWeHandleView: React.FC<WhatWeHandleViewProps> = ({ setView }) => {
         { label: "Turn-Key Arrival", text: "We don’t leave boxes behind. We unpack essentials, organize kitchens and closets, make the beds, hang the art, and set up the home for daily living." }
       ],
       outcome: "A calm move day—and a home that feels settled immediately.",
-      color: "orange"
+      color: "forest"
     },
     {
       id: 3,
@@ -120,7 +120,7 @@ const WhatWeHandleView: React.FC<WhatWeHandleViewProps> = ({ setView }) => {
               >
                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 
                   ${pillar.color === 'blue' ? 'bg-blue-50 text-blue-600' : 
-                    pillar.color === 'orange' ? 'bg-orange-50 text-brand-primary' : 
+                    pillar.color === 'forest' ? 'bg-[#2E5D4B]/10 text-brand-primary' : 
                     'bg-green-50 text-brand-secondary'}`}
                 >
                   <pillar.icon className="w-8 h-8" />
@@ -144,12 +144,12 @@ const WhatWeHandleView: React.FC<WhatWeHandleViewProps> = ({ setView }) => {
                 {/* Outcome Box */}
                 <div className={`p-6 rounded-2xl flex items-start shadow-sm border
                   ${pillar.color === 'blue' ? 'bg-blue-50/50 border-blue-100' : 
-                    pillar.color === 'orange' ? 'bg-orange-50/50 border-orange-100' : 
+                    pillar.color === 'forest' ? 'bg-[#2E5D4B]/10 border-[#2E5D4B]/20' : 
                     'bg-green-50/50 border-green-100'}`}
                 >
                   <CheckCircle2 className={`w-5 h-5 mr-3 flex-shrink-0 mt-0.5 
                     ${pillar.color === 'blue' ? 'text-blue-500' : 
-                      pillar.color === 'orange' ? 'text-brand-primary' : 
+                      pillar.color === 'forest' ? 'text-brand-primary' : 
                       'text-brand-secondary'}`} 
                   />
                   <p className="text-sm font-semibold italic text-brand-dark">
